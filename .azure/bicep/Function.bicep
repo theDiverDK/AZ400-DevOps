@@ -1,14 +1,13 @@
 targetScope = 'resourceGroup'
 
-@description('Specifies the location for resources.')
-
 param location string = resourceGroup().location
 param appName string
 param storageAccountName string
 
+param suffix string = uniqueString(resourceGroup().id)
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
-  name: '${appName}-plan'
+  name: '${appName}-plan-${suffix}'
   location: location
   sku: {
     tier: 'Basic'
@@ -18,7 +17,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
 }
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
-  name: storageAccountName
+  name: 'storageAccountName-${suffix}'
   location: location
   sku: {
     name: 'Standard_LRS'
@@ -27,7 +26,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
 }
 
 resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
-  name: appName
+  name: 'appName-${suffix}'
   location: location
   properties: {
     serverFarmId: appServicePlan.id
