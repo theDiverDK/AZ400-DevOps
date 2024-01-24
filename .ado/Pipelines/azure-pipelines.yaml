@@ -11,8 +11,12 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  - name: location
-    value: 'westeurope'
+  location: 'westeurope'
+  resource-group: 'az-400'
+  templateFile: '.azure/bicep/Function.bicep'
+  subscriptionid: '8ed210d1-9420-4e71-968d-a73398093c77'
+  azureserviceconnection: 'azureConnection'
+  webappname: 'az400-webapp-NAME'
 
 stages:
   # - stage:
@@ -50,6 +54,21 @@ stages:
           command: 'build'
           projects: '**/*.sln'                
 
+      - task: AzureResourceManagerTemplateDeployment@3
+        displayName: Deploy App Service Plan Bicep
+        inputs:
+          deploymentScope: 'Resource Group'
+          azureResourceManagerConnection: '$(azureserviceconnection)'
+          subscriptionId: '$(subscriptionid)'
+          action: 'Create Or Update Resource Group'
+          resourceGroupName: '$(resource-group)'
+          location: '$(location)'
+          templateLocation: 'Linked artifact'
+          csmFile: '$(templateFile)'
+          overrideParameters: '-webAppName $(webappname) -location $(location)'
+          deploymentMode: 'Incremental'
+          deploymentOutputs: 'asp-json'
+    
 
 
 #  - stage:
