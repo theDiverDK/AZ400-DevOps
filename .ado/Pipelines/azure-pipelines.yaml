@@ -55,20 +55,25 @@ stages:
           command: 'build'
           projects: '**/*.sln'                
 
-      - task: AzureResourceManagerTemplateDeployment@3
-        displayName: Deploy App Service Plan Bicep
-        inputs:
-          deploymentScope: 'Resource Group'
-          azureResourceManagerConnection: '$(azureserviceconnection)'
-          subscriptionId: '$(subscriptionid)'
-          action: 'Create Or Update Resource Group'
-          resourceGroupName: '$(resource-group)'
-          location: '$(location)'
-          templateLocation: 'Linked artifact'
-          csmFile: '$(templateFile)'
-          overrideParameters: '-appName $(appname) -location $(location) -storageAccountName $(storageaccountname)'
-          deploymentMode: 'Incremental'
-          deploymentOutputs: 'asp-json'
+  - stage: Deploy
+    displayName: Creating and Deploying function
+    jobs:
+      - job: Create
+        steps:
+        - task: AzureResourceManagerTemplateDeployment@3
+          displayName: Deploy App Service Plan Bicep
+          inputs:
+            deploymentScope: 'Resource Group'
+            azureResourceManagerConnection: '$(azureserviceconnection)'
+            subscriptionId: '$(subscriptionid)'
+            action: 'Create Or Update Resource Group'
+            resourceGroupName: '$(resource-group)'
+            location: '$(location)'
+            templateLocation: 'Linked artifact'
+            csmFile: '$(templateFile)'
+            overrideParameters: '-appName $(appname) -location $(location) -storageAccountName $(storageaccountname)'
+            deploymentMode: 'Incremental'
+            deploymentOutputs: 'asp-json'
     
 
 
