@@ -32,6 +32,7 @@ stages:
               scriptLocation: inlineScript
               inlineScript: |
                 az group create --location $(location) --name $(resourceGroupName)
+                
 #  - stage:
 #    displayName: 'prod'
 #    variables:
