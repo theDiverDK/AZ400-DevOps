@@ -65,7 +65,7 @@ stages:
           location: '$(location)'
           templateLocation: 'Linked artifact'
           csmFile: '$(templateFile)'
-          overrideParameters: '-appname $(appname) -location $(location)'
+          overrideParameters: '-appname $(appname) -location $(location) -storageaccountname storage$(appname)'
           deploymentMode: 'Incremental'
           deploymentOutputs: 'asp-json'
     
