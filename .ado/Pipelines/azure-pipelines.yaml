@@ -32,7 +32,25 @@ stages:
               scriptLocation: inlineScript
               inlineScript: |
                 az group create --location $(location) --name $(resourceGroupName)
-                
+  - stage: Build
+    displayName: Build .Net Core Solution
+    jobs:
+    - job: Build
+    pool:
+        vmImage: ubuntu-latest
+    steps:
+    - task: DotNetCoreCLI@2
+        displayName: Restore
+        inputs:
+        command: 'restore'
+        projects: '**/*.sln'
+        feedsToUse: 'select'
+
+    - task: DotNetCoreCLI@2
+        displayName: Build
+        inputs:
+        command: 'build'
+        projects: '**/*.sln'                
 #  - stage:
 #    displayName: 'prod'
 #    variables:
