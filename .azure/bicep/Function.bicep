@@ -4,7 +4,8 @@ param location string = resourceGroup().location
 param appName string
 param storageAccountName string
 
-param suffix string = uniqueString(resourceGroup().id)
+var suffix = substring(uniqueString(resourceGroup().id), 0, 6)
+
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
   name: '${appName}-plan-${suffix}'
@@ -17,7 +18,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
 }
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
-  name: 'storageAccountName-${suffix}'
+  name: '${storageAccountName}-${suffix}'
   location: location
   sku: {
     name: 'Standard_LRS'
@@ -26,7 +27,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
 }
 
 resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
-  name: 'appName-${suffix}'
+  name: '${appName}-${suffix}'
   location: location
   properties: {
     serverFarmId: appServicePlan.id
