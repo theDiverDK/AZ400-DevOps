@@ -36,21 +36,22 @@ stages:
     displayName: Build .Net Core Solution
     jobs:
     - job: Build
-    pool:
-        vmImage: ubuntu-latest
-    steps:
-    - task: DotNetCoreCLI@2
+      steps:
+      - task: DotNetCoreCLI@2
         displayName: Restore
         inputs:
-        command: 'restore'
-        projects: '**/*.sln'
-        feedsToUse: 'select'
+          command: 'restore'
+          projects: '**/*.sln'
+          feedsToUse: 'select'
 
-    - task: DotNetCoreCLI@2
+      - task: DotNetCoreCLI@2
         displayName: Build
         inputs:
-        command: 'build'
-        projects: '**/*.sln'                
+          command: 'build'
+          projects: '**/*.sln'                
+
+
+
 #  - stage:
 #    displayName: 'prod'
 #    variables:
