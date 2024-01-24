@@ -75,15 +75,14 @@ stages:
             deploymentMode: 'Incremental'
             deploymentOutputs: 'asp-json'
 
-        - task: AzureRmWebAppDeployment@4
+        - task: AzureFunctionApp@2
           displayName: 'Deploy to Function App'
           inputs:
-            ConnectionType: 'AzureRM'
-            azureSubscription: $(subscriptionid)
-            appType: 'functionApp'
-            WebAppName: $(appname)
-            packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-            enableCustomDeployment: true   
+            connectedServiceNameARM : $(azureserviceconnection)
+            appType: functionApp
+            appName:  $(appname)
+            package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+            
 
 
 #  - stage:
