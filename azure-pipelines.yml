@@ -10,13 +10,44 @@ pool:
   name: 'Minecraft server'
   vmImage: ubuntu-latest
 
+variables:
+  - name: location
+    value: 'westeurope'
+
+
 stages:
   - stage:
-#    variables:
-#      - group: mygroup-test
+    variables:
+      - group: mygroup-test
     displayName: 'test'
     jobs:
       - job:
         steps:
           - script: echo 'Hello az 400 Tuesday'
             displayName: 'Executing echo command'
+          - task: AzureCLI@2
+            displayName: 'Creating the resource group'
+            inputs:
+              azureSubscription: manualserviceconnection
+              scriptType: pscore
+              scriptLocation: inlineScript
+              inlineScript: |
+                az group create --location $(location) --name $(resourceGroupName)
+  - stage:
+    displayName: 'prod'
+    variables:
+      - group: mygroup-prod
+    jobs:
+      - job:
+        steps:
+          - script: echo 'Hello az 400 Tuesday'
+            displayName: 'Executing echo command'
+          - task: AzureCLI@2
+            displayName: 'Creating the resource group'
+            inputs:
+              azureSubscription: manualserviceconnection
+              scriptType: pscore
+              scriptLocation: inlineScript
+              inlineScript: |
+                az group create --location $(location) --name $(resourceGroupName)
+              
