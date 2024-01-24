@@ -31,6 +31,15 @@ resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
   location: location
   properties: {
     serverFarmId: appServicePlan.id
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'FUNCTIONS_WORKER_RUNTIME'
+          value: 'dotnet'
+        }
+        // Add other app settings as needed
+      ]
+    }
   }
   dependsOn: [storageAccount]
 }
