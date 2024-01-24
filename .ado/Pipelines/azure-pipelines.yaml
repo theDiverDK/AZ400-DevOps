@@ -16,7 +16,7 @@ variables:
   templateFile: '.azure/bicep/Function.bicep'
   subscriptionid: '8ed210d1-9420-4e71-968d-a73398093c77'
   azureserviceconnection: 'azureConnection'
-  webappname: 'az400-webapp-NAME'
+  webAppName: 'az400-webapp-NAME'
 
 stages:
   # - stage:
