@@ -15,23 +15,23 @@ variables:
     value: 'westeurope'
 
 stages:
-  - stage:
-    variables:
-      - group: mygroup-test
-    displayName: 'test'
-    jobs:
-      - job:
-        steps:
-          - script: echo 'Hello az 400 Tuesday'
-            displayName: 'Executing echo command'
-          - task: AzureCLI@2
-            displayName: 'Creating the resource group'
-            inputs:
-              azureSubscription: azureConnection
-              scriptType: pscore
-              scriptLocation: inlineScript
-              inlineScript: |
-                az group create --location $(location) --name $(resourceGroupName)
+  # - stage:
+  #   variables:
+  #     - group: mygroup-test
+  #   displayName: 'test'
+  #   jobs:
+  #     - job:
+  #       steps:
+  #         - script: echo 'Hello az 400 Tuesday'
+  #           displayName: 'Executing echo command'
+  #         - task: AzureCLI@2
+  #           displayName: 'Creating the resource group'
+  #           inputs:
+  #             azureSubscription: azureConnection
+  #             scriptType: pscore
+  #             scriptLocation: inlineScript
+  #             inlineScript: |
+  #               az group create --location $(location) --name $(resourceGroupName)
   - stage: Build
     displayName: Build .Net Core Solution
     jobs:
