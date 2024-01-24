@@ -28,7 +28,7 @@ stages:
           - task: AzureCLI@2
             displayName: 'Creating the resource group'
             inputs:
-              azureSubscription: theDiverDK
+              azureSubscription: azureConnection
               scriptType: pscore
               scriptLocation: inlineScript
               inlineScript: |
@@ -45,7 +45,7 @@ stages:
           - task: AzureCLI@2
             displayName: 'Creating the resource group'
             inputs:
-              azureSubscription: theDiverDK
+              azureSubscription: azureConnection
               scriptType: pscore
               scriptLocation: inlineScript
               inlineScript: |
