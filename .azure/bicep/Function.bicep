@@ -38,6 +38,10 @@ resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
           name: 'FUNCTIONS_WORKER_RUNTIME'
           value: 'dotnet'
         }
+        {
+          name: 'FUNCTIONS_EXTENSION_VERSION'
+          value: '~4'
+        }
         // Add other app settings as needed
       ]
     }

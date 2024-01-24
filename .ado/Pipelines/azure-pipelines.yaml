@@ -74,7 +74,16 @@ stages:
             overrideParameters: '-appName $(appname) -location $(location) -storageAccountName $(storageaccountname)'
             deploymentMode: 'Incremental'
             deploymentOutputs: 'asp-json'
-    
+
+        - task: AzureRmWebAppDeployment@4
+          displayName: 'Deploy to Function App'
+          inputs:
+            ConnectionType: 'AzureRM'
+            azureSubscription: $(subscriptionid)
+            appType: 'functionApp'
+            WebAppName: $(appname)
+            packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+            enableCustomDeployment: true   
 
 
 #  - stage:
