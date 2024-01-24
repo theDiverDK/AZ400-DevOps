@@ -16,8 +16,8 @@ variables:
   templateFile: '.azure/bicep/Function.bicep'
   subscriptionid: '8ed210d1-9420-4e71-968d-a73398093c77'
   azureserviceconnection: 'azureConnection'
-  appName: 'az400-webapp-NAME'
-  storageAccountName: 'reinketeststorage'
+  appName: 'webapp'
+  storageAccountName: 'storage'
 
 stages:
   # - stage:
