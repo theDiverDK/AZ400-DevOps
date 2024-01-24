@@ -8,7 +8,7 @@ var suffix = substring(uniqueString(resourceGroup().id), 0, 6)
 
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
-  name: '${appName}plan${suffix}'
+  name: '${appName}${suffix}'
   location: location
   sku: {
     tier: 'Basic'
