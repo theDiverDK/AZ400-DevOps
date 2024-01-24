@@ -14,7 +14,6 @@ variables:
   - name: location
     value: 'westeurope'
 
-
 stages:
   - stage:
     variables:
