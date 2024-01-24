@@ -54,7 +54,7 @@ stages:
         displayName: Build
         inputs:
           command: 'build'
-          projects: '**/*.sln'                
+          projects: '**/*.sln'
 
   - stage: Deploy
     displayName: Creating and Deploying function
@@ -82,7 +82,7 @@ stages:
             connectedServiceNameARM : $(azureserviceconnection)
             appType: functionApp
             appName:  $(appname)
-            package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+            package: '$(Build.ArtifactStagingDirectory)'
             
 
 
