@@ -11,10 +11,13 @@ variables:
   
   - name: templateFile
     value: '.azure/bicep/Function.bicep'
+
   - name: azureServiceConnection
     value: 'azureConnection'
+
   - name: appname
     value: 'functions$(suffix)'
+
   - name: storageAccountName
     value: 'storage$(suffix)'
 
