@@ -22,7 +22,7 @@ variables:
 pool:
   name: 'Minecraft server'
   vmImage: 'ubuntu-latest'
-  
+
 stages:
   - stage:
     #Setup or update environment
