@@ -13,7 +13,7 @@ pool:
 variables:
   suffix: '010572'
   location: 'westeurope'
-  resource-group: 'az-400'
+  resourceGroupName: 'az-400'
   templateFile: '.azure/bicep/Function.bicep'
   subscriptionid: '8ed210d1-9420-4e71-968d-a73398093c77'
   azureserviceconnection: 'azureConnection'
@@ -68,7 +68,7 @@ stages:
             azureResourceManagerConnection: '$(azureserviceconnection)'
             subscriptionId: '$(subscriptionid)'
             action: 'Create Or Update Resource Group'
-            resourceGroupName: '$(resource-group)'
+            resourceGroupName: '$(resourceGroupName)'
             location: '$(location)'
             templateLocation: 'Linked artifact'
             csmFile: '$(templateFile)'

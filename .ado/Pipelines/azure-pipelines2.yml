@@ -19,42 +19,80 @@ variables:
 pool:
   name: 'Minecraft server'
   vmImage: 'ubuntu-latest'
+
   
-steps:
-- task: DotNetCoreCLI@2
-  displayName: Restore
-  inputs:
-    command: 'restore'
-    projects: '**/*.sln'
-    feedsToUse: 'select'
+stages:
+  - stage:
+    displayName: Create or update environment
+    variables:
+      - group: mygroup-test
+    jobs:
+      - job:
+        steps:
+          - task: AzureCLI@2
+            displayName: Create or update the resource group
+            inputs:
+              azureSubscription: azureConnection
+              scriptType: pscore
+              scriptLocation: inlineScript
+              inlineScript: |
+                az group create --location $(location) --name $(resourceGroupName)
 
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    command: 'build'
-    projects: '**/*.sln'
+          - task: AzureResourceManagerTemplateDeployment@3
+            displayName: Create or update environment
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: '$(azureserviceconnection)'
+              subscriptionId: '$(subscriptionid)'
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: '$(resourceGroupName)'
+              location: '$(location)'
+              templateLocation: 'Linked artifact'
+              csmFile: '$(templateFile)'
+              overrideParameters: '-appName $(appname) -location $(location) -storageAccountName $(storageaccountname)'
+              deploymentMode: 'Incremental'
+              deploymentOutputs: 'asp-json'
 
-- task: DotNetCoreCLI@2
-  displayName: Publish
-  inputs:
-    command: publish
-    arguments: '--configuration Release --output publish_output'
-    projects: '**/*.sln'
-    publishWebProjects: false
-    modifyOutputPath: false
-    zipAfterPublish: false
 
-- task: ArchiveFiles@2
-  displayName: "Archive files"
-  inputs:
-    rootFolderOrFile: "publish_output"
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+  - stage:
+    displayName: Build & Deploy
+    jobs:
+      - job:
+        steps:
+        - task: DotNetCoreCLI@2
+          displayName: Restore
+          inputs:
+            command: 'restore'
+            projects: '**/*.sln'
+            feedsToUse: 'select'
 
-- task: AzureFunctionApp@2
-  inputs:
-    connectedServiceNameARM: azureConnection
-    appType: functionApp
-    appName: $(appName)
-    package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        - task: DotNetCoreCLI@2
+          displayName: Build
+          inputs:
+            command: 'build'
+            projects: '**/*.sln'
+
+        - task: DotNetCoreCLI@2
+          displayName: Publish
+          inputs:
+            command: publish
+            arguments: '--configuration Release --output publish_output'
+            projects: '**/*.sln'
+            publishWebProjects: false
+            modifyOutputPath: false
+            zipAfterPublish: false
+
+        - task: ArchiveFiles@2
+          displayName: "Archive files"
+          inputs:
+            rootFolderOrFile: "publish_output"
+            includeRootFolder: false
+            archiveType: 'zip'
+            archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+
+        - task: AzureFunctionApp@2
+          inputs:
+            connectedServiceNameARM: azureConnection
+            appType: functionApp
+            appName: $(appName)
+            package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
