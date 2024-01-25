@@ -6,6 +6,16 @@
 trigger:
 - main
 
+variables:
+  suffix: '010572'
+  location: 'westeurope'
+  resource-group: 'az-400'
+  templateFile: '.azure/bicep/Function.bicep'
+  subscriptionid: '8ed210d1-9420-4e71-968d-a73398093c77'
+  azureserviceconnection: 'azureConnection'
+  appName: 'functions$(suffix)'
+  storageAccountName: 'storage$(suffix)'
+
 pool:
   name: 'Minecraft server'
   vmImage: 'ubuntu-latest'
@@ -42,7 +52,9 @@ steps:
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
 
-- task: PublishBuildArtifacts@1
+- task: AzureFunctionApp@2
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    artifactName: 'drop'
+    connectedServiceNameARM: azureConnection
+    appType: functionApp
+    appName: $(appName)
+    package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
