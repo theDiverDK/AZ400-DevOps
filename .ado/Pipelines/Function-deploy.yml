@@ -23,7 +23,6 @@ pool:
   name: 'Minecraft server'
   vmImage: 'ubuntu-latest'
 
-  
 stages:
   #Setup or update environment
   - stage:
