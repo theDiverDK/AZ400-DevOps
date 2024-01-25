@@ -22,11 +22,10 @@ variables:
 pool:
   name: 'Minecraft server'
   vmImage: 'ubuntu-latest'
-
   
 stages:
-  #Setup or update environment
   - stage:
+    #Setup or update environment
     displayName: Create or update environment
     variables:
       - group: 'Function-App-Prod'
