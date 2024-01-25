@@ -45,9 +45,11 @@ stages:
           - task: AzureResourceManagerTemplateDeployment@3
             displayName: Create or update environment
             inputs:
+              addSpnToEnvironment: true
               deploymentScope: 'Resource Group'
               azureResourceManagerConnection: '$(azureServiceConnection)'
-              subscriptionId: '$(subscriptionId)'
+              #subscriptionId: '$(subscriptionId)'
+              azureSubscription: '$(azureServiceConnection)'
               action: 'Create Or Update Resource Group'
               resourceGroupName: '$(resourceGroupName)'
               location: '$(location)'
