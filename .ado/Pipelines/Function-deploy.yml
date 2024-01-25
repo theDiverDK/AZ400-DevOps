@@ -1,3 +1,5 @@
+#This pipeline will create resource group and needed resources within
+#Then checkout, restore, build and deploy a Function App
 
 trigger:
 - main
