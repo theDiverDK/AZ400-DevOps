@@ -11,14 +11,25 @@ pool:
   vmImage: 'ubuntu-latest'
   
 steps:
-- script: |
-    dotnet restore
-    dotnet build --configuration Release
 - task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: 'restore'
+    projects: '**/*.sln'
+    feedsToUse: 'select'
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: 'build'
+    projects: '**/*.sln'
+
+- task: DotNetCoreCLI@2
+  displayName: Publish
   inputs:
     command: publish
     arguments: '--configuration Release --output publish_output'
-    projects: '*.csproj'
+    projects: '**/*.sln'
     publishWebProjects: false
     modifyOutputPath: false
     zipAfterPublish: false
