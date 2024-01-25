@@ -2,8 +2,13 @@
 #Then checkout, restore, build and deploy a Function App
 
 trigger:
-- main
-
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - HttpTriggerFunction
+      
 variables:
   - group: 'Function-App-Prod'
   

@@ -12,6 +12,7 @@ namespace HttpTriggerFunction
 {
     public static class HttpTrigger
     {
+        
         [FunctionName("HttpTrigger")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
@@ -32,4 +33,5 @@ namespace HttpTriggerFunction
             return new OkObjectResult(responseMessage);
         }
     }
+
 }
