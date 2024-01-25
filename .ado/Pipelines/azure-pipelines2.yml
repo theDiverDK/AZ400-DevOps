@@ -1,7 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
 
 trigger:
 - main
@@ -21,11 +17,6 @@ variables:
   - name: storageAccountName
     value: 'storage$(suffix)'
 
-#  suffix: '010572'
-#  location: 'westeurope'
-#  resourceGroupName: 'az-400'
-#  subscriptionId: '8ed210d1-9420-4e71-968d-a73398093c77'
-
 pool:
   name: 'Minecraft server'
   vmImage: 'ubuntu-latest'
@@ -39,6 +30,7 @@ stages:
     jobs:
       - job:
         steps:
+          - checkout: none
           - task: AzureCLI@2
             displayName: Create or update the resource group
             inputs:
