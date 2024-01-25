@@ -25,6 +25,7 @@ pool:
 
   
 stages:
+  #Setup or update environment
   - stage:
     displayName: Create or update environment
     variables:
@@ -48,7 +49,6 @@ stages:
               addSpnToEnvironment: true
               deploymentScope: 'Resource Group'
               azureResourceManagerConnection: '$(azureServiceConnection)'
-#              azureSubscription: '$(azureServiceConnection)'
               action: 'Create Or Update Resource Group'
               resourceGroupName: '$(resourceGroupName)'
               location: '$(location)'
@@ -58,8 +58,8 @@ stages:
               deploymentMode: 'Incremental'
               deploymentOutputs: 'asp-json'
 
-
   - stage:
+    #Checkout, restore, build and deploy the function app
     displayName: Build & Deploy
     jobs:
       - job:
