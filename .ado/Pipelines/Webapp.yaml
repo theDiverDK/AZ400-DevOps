@@ -40,13 +40,13 @@ stages:
             feedsToUse: 'select'
 
         - task: DotNetCoreCLI@2
-          displayName: Build Functions
+          displayName: Build 
           inputs:
             command: 'build'
             projects: 'WebApp/**/*.csproj'
 
         - task: DotNetCoreCLI@2
-          displayName: Publish Functions locally
+          displayName: Publish locally
           inputs:
             command: publish
             arguments: '--configuration Release --output publish_output'
@@ -56,7 +56,7 @@ stages:
             zipAfterPublish: false
 
         - task: ArchiveFiles@2
-          displayName: "Archive Functions"
+          displayName: "Archive"
           inputs:
             rootFolderOrFile: "publish_output"
             includeRootFolder: false
@@ -64,9 +64,9 @@ stages:
             archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
 
         - task: AzureWebApp@1
-          displayName: Publish Webapp to Azure
+          displayName: Publish to Azure
           inputs:
-            azureSubscription:  azureConnection
+            azureSubscription: azureConnection
             appType: webApp
             appName: $(appName)
             package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
