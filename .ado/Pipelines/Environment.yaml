@@ -33,7 +33,7 @@ stages:
       - job:
 #        condition: false #prevents this stage to run
         steps:
-          - checkout: none
+#          - checkout: none
           - task: AzureCLI@2
             displayName: Create or update the resource group
             inputs:
