@@ -16,7 +16,7 @@ variables:
     value: 'azureConnection'
 
   - name: appname
-    value: 'functions$(suffix)'
+    value: 'web$(suffix)'
 
   - name: storageAccountName
     value: 'storage$(suffix)'
