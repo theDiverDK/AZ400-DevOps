@@ -8,6 +8,8 @@ trigger:
   paths:
     include:
       - HttpTriggerFunction
+      - .ado
+      - .azure
       
 variables:
   - group: 'Function-App-Prod'
@@ -30,6 +32,7 @@ pool:
 
 stages:
   - stage:
+    condition: false #prevents this stage to run
     #Setup or update environment
     displayName: Create or update environment
     variables:
@@ -72,27 +75,27 @@ stages:
           displayName: Restore
           inputs:
             command: 'restore'
-            projects: '**/*.sln'
+            projects: 'Functions/**/*.'
             feedsToUse: 'select'
 
         - task: DotNetCoreCLI@2
-          displayName: Build
+          displayName: Build Functions
           inputs:
             command: 'build'
-            projects: '**/*.sln'
+            projects: 'Functions/**/*.'
 
         - task: DotNetCoreCLI@2
-          displayName: Publish
+          displayName: Publish Functions locally
           inputs:
             command: publish
             arguments: '--configuration Release --output publish_output'
-            projects: '**/*.sln'
+            projects: 'Functions/**/*.'
             publishWebProjects: false
             modifyOutputPath: false
             zipAfterPublish: false
 
         - task: ArchiveFiles@2
-          displayName: "Archive files"
+          displayName: "Archive Functions"
           inputs:
             rootFolderOrFile: "publish_output"
             includeRootFolder: false
@@ -100,6 +103,7 @@ stages:
             archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
 
         - task: AzureFunctionApp@2
+          displayName: Publish Functions to Azure
           inputs:
             connectedServiceNameARM: azureConnection
             appType: functionApp
