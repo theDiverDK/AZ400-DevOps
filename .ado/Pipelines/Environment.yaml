@@ -23,6 +23,9 @@ variables:
   - name: appname
     value: 'functions$(suffix)'
 
+  - name: websiteName
+    value: 'web$(suffix)'
+
   - name: storageAccountName
     value: 'storage$(suffix)'
 
