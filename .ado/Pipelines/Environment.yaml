@@ -12,7 +12,7 @@ trigger:
 #      - .azure
       
 variables:
-  - group: 'Function-App-Prod'
+  - group: 'Production Variables'
   
   - name: templateFile
     value: '.azure/bicep/Environment.bicep'
