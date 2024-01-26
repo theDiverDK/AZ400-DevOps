@@ -6,7 +6,6 @@ param appName string
 param storageAccountName string
 param websiteName string
 param keyVaultName string
-param azureSubscriptionObjectId string
 
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
@@ -66,23 +65,13 @@ resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = {
   properties: {
     enabledForDeployment: false
     enabledForDiskEncryption: false
-    enabledForTemplateDeployment: false
+    enabledForTemplateDeployment: true
     tenantId: subscription().tenantId
     enableSoftDelete: true
     softDeleteRetentionInDays: 7
+
     accessPolicies: [
-      {
-        objectId: 'b87ddac9-f36d-448c-9977-bb8fa8d299a3'
-        tenantId: subscription().tenantId
-        permissions: {
-          keys: [
-            'list'
-          ]
-          secrets: [
-            'list'
-          ]
-        }
-      }
+     
     ]
     sku: {
       name: 'standard'
