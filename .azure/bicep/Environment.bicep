@@ -21,6 +21,7 @@ resource appService 'Microsoft.Web/sites@2023-01-01' = {
   properties: {
     serverFarmId: appServicePlan.id
   }
+  kind: 'web'
 }
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
