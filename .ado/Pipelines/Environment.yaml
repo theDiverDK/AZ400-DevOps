@@ -20,7 +20,10 @@ variables:
   - name: azureServiceConnection
     value: 'azureConnection'
 
-  - name: appname
+  - name: appServicePlanName
+    value: 'appplan$(suffix)'
+  
+  - name: appName
     value: 'web$(suffix)'
 
   - name: websiteName
@@ -64,6 +67,6 @@ stages:
               location: '$(location)'
               templateLocation: 'Linked artifact'
               csmFile: '$(templateFile)'
-              overrideParameters: '-appName $(appname) -location $(location) -storageAccountName $(storageaccountname) -websiteName $(websiteName)'
+              overrideParameters: ' -appServicePlanName $(appServicePlanName) -appName $(appName) -location $(location) -storageAccountName $(storageAccountName) -websiteName $(websiteName)'
               deploymentMode: 'Incremental'
               deploymentOutputs: 'asp-json'
