@@ -74,3 +74,21 @@ stages:
               deploymentMode: 'Incremental'
               deploymentOutputs: 'asp-json'
           
+          - task: AzureCLI@2
+            displayName: 'Get Storage Account Connection String'
+            inputs:
+              azureSubscription: '$(azureServiceConnection)'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                storageConnectionString=$(az storage account show-connection-string --name $(storageAccountName) --resource-group $(resourceGroupName) --output tsv --query 'connectionString')
+                echo "##vso[task.setvariable variable=storageConnectionString]$storageConnectionString"
+
+          - task: AzureKeyVault@2
+            displayName: 'Store Storage Account Connection String in Key Vault'
+            inputs:
+              azureSubscription: '$(azureServiceConnection)'
+              KeyVaultName: '$(keyVaultName)'
+              SecretsFilter: 'storageConnectionString'
+              RunAsPreJob: false
+#              ReplaceExisting: true
