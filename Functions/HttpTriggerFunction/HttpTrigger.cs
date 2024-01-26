@@ -33,5 +33,4 @@ namespace HttpTriggerFunction
             return new OkObjectResult(responseMessage);
         }
     }
-
 }
