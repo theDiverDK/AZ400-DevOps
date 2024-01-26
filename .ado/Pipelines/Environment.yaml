@@ -38,7 +38,7 @@ stages:
     #Setup or update environment
     displayName: Create or update environment
     variables:
-      - group: 'Function-App-Prod'
+      - group: 'Production Variables'
     jobs:
       - job:
 #        condition: false #prevents this stage to run
