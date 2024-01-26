@@ -75,21 +75,21 @@ stages:
           displayName: Restore
           inputs:
             command: 'restore'
-            projects: 'Functions/**/*.'
+            projects: 'Functions/**/*.csproj'
             feedsToUse: 'select'
 
         - task: DotNetCoreCLI@2
           displayName: Build Functions
           inputs:
             command: 'build'
-            projects: 'Functions/**/*.'
+            projects: 'Functions/**/*.csproj'
 
         - task: DotNetCoreCLI@2
           displayName: Publish Functions locally
           inputs:
             command: publish
             arguments: '--configuration Release --output publish_output'
-            projects: 'Functions/**/*.'
+            projects: 'Functions/**/*.csproj'
             publishWebProjects: false
             modifyOutputPath: false
             zipAfterPublish: false
