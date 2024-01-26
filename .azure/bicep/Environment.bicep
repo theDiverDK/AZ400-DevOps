@@ -15,15 +15,6 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
   }
 }
 
-resource appService 'Microsoft.Web/sites@2023-01-01' = {
-  name: websiteName
-  location: location
-  properties: {
-    serverFarmId: appServicePlan.id
-  }
-  kind: 'web'
-}
-
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   name: storageAccountName
   location: location
@@ -55,3 +46,13 @@ resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
   }
   dependsOn: [storageAccount]
 }
+
+resource appService 'Microsoft.Web/sites@2023-01-01' = {
+  name: websiteName
+  location: location
+  properties: {
+    serverFarmId: appServicePlan.id
+  }
+  kind: 'web'
+}
+

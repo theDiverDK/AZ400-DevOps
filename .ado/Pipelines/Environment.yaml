@@ -21,7 +21,7 @@ variables:
     value: 'azureConnection'
 
   - name: appname
-    value: 'functions$(suffix)'
+    value: 'web$(suffix)'
 
   - name: websiteName
     value: 'web$(suffix)'
