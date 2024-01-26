@@ -7,7 +7,7 @@ trigger:
       - main
   paths:
     include:
-      - HttpTriggerFunction
+      - Functions
       
 variables:
   - group: 'Function-App-Prod'
