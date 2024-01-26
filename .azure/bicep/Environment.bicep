@@ -3,6 +3,7 @@ targetScope = 'resourceGroup'
 param location string = resourceGroup().location
 param appName string
 param storageAccountName string
+param websiteName string
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
   name: appName
@@ -11,6 +12,14 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
     tier: 'Basic'
     size: 'B1'
     name: 'B1'
+  }
+}
+
+resource appService 'Microsoft.Web/sites@2020-06-01' = {
+  name: websiteName
+  location: location
+  properties: {
+    serverFarmId: appServicePlan.id
   }
 }
 
