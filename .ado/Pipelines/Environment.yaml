@@ -88,7 +88,7 @@ stages:
             displayName: 'Store Storage Account Connection String in Key Vault'
             inputs:
               azureSubscription: '$(azureServiceConnection)'
-              KeyVaultName: '$(keyVaultName)'
+              KeyVaultName: '$(keyVaultName)2'
               SecretsFilter: 'storageConnectionString'
               RunAsPreJob: false
 #              ReplaceExisting: true
