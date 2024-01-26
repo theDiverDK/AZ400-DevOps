@@ -32,17 +32,6 @@ variables:
   - name: storageAccountName
     value: 'storage$(suffix)'
 
-
-  - name: cosmosAccountName
-    value: 'cosmosAccount$(suffix)'
-
-  - name: cosmosDatabaseName
-    value: 'cosmosDB$(suffix)'
-
-  - name: cosmosContainerName
-    value: 'cosmosContainer$(suffix)'
-
-
 pool:
   name: 'Minecraft server'
   vmImage: 'ubuntu-latest'
@@ -78,7 +67,7 @@ stages:
               location: '$(location)'
               templateLocation: 'Linked artifact'
               csmFile: '$(templateFile)'
-              overrideParameters: ' -appServicePlanName $(appServicePlanName) -appName $(appName) -location $(location) -storageAccountName $(storageAccountName) -websiteName $(websiteName) -cosmosAccountName $(cosmosAccountName) -cosmosDatabaseName $(cosmosDatabaseName) -cosmosContainerName $(cosmosContainerName)'
+              overrideParameters: ' -appServicePlanName $(appServicePlanName) -appName $(appName) -location $(location) -storageAccountName $(storageAccountName) -websiteName $(websiteName)'
               deploymentMode: 'Incremental'
               deploymentOutputs: 'asp-json'
           
