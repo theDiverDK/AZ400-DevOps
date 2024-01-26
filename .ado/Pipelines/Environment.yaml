@@ -19,6 +19,12 @@ variables:
   - name: azureServiceConnection
     value: 'azureConnection'
 
+  - name: appname
+    value: 'functions$(suffix)'
+
+  - name: storageAccountName
+    value: 'storage$(suffix)'
+
 pool:
   name: 'Minecraft server'
   vmImage: 'ubuntu-latest'
