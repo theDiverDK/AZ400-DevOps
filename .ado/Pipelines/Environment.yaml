@@ -81,7 +81,7 @@ stages:
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
               inlineScript: |
-                storageConnectionString=$(az storage account show-connection-string --name $(storageAccountName) --resource-group $(resourceGroupName) --output tsv --query 'connectionString')
+                storageConnectionString=$(az storage account show-connection-string --name $(storageAccountName) --resource-group $(resourceGroupName) --output tsv --query 'connectionString' -azureSubscriptionObjecId $(azureServiceConnection).id)
                 echo "##vso[task.setvariable variable=storageConnectionString]$storageConnectionString"
 
           - task: AzureKeyVault@2
