@@ -32,13 +32,13 @@ pool:
 
 stages:
   - stage:
-    condition: false #prevents this stage to run
     #Setup or update environment
     displayName: Create or update environment
     variables:
       - group: 'Function-App-Prod'
     jobs:
       - job:
+        condition: false #prevents this stage to run
         steps:
           - checkout: none
           - task: AzureCLI@2
