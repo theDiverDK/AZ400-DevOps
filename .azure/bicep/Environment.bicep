@@ -71,7 +71,18 @@ resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = {
     softDeleteRetentionInDays: 7
 
     accessPolicies: [
-     
+      {
+        objectId: '6950dc88-2dd3-426a-8802-111a584c2ceb'
+        tenantId: subscription().tenantId
+        permissions: {
+          keys: [
+            'list', 'set'
+          ]
+          secrets: [
+            'list', 'set'
+          ]
+        }
+      }
     ]
     sku: {
       name: 'standard'
