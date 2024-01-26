@@ -32,9 +32,6 @@ variables:
   - name: storageAccountName
     value: 'storage$(suffix)'
   
-  - name: keyVaultName
-    value: 'keyVault$(suffix)'
-
 pool:
   name: 'Minecraft server'
   vmImage: 'ubuntu-latest'
@@ -70,25 +67,8 @@ stages:
               location: '$(location)'
               templateLocation: 'Linked artifact'
               csmFile: '$(templateFile)'
-              overrideParameters: ' -appServicePlanName $(appServicePlanName) -appName $(appName) -location $(location) -storageAccountName $(storageAccountName) -websiteName $(websiteName) -keyVaultName $(keyVaultName)2'
+              overrideParameters: ' -appServicePlanName $(appServicePlanName) -appName $(appName) -location $(location) -storageAccountName $(storageAccountName) -websiteName $(websiteName)'
               deploymentMode: 'Incremental'
               deploymentOutputs: 'asp-json'
-          
-          - task: AzureCLI@2
-            displayName: 'Get Storage Account Connection String'
-            inputs:
-              azureSubscription: '$(azureServiceConnection)'
-              scriptType: 'bash'
-              scriptLocation: 'inlineScript'
-              inlineScript: |
-                storageConnectionString=$(az storage account show-connection-string --name $(storageAccountName) --resource-group $(resourceGroupName) --output tsv --query 'connectionString')
-                echo "##vso[task.setvariable variable=storageConnectionString]$storageConnectionString"
+         
 
-          - task: AzureKeyVault@2
-            displayName: 'Store Storage Account Connection String in Key Vault'
-            inputs:
-              azureSubscription: '$(azureServiceConnection)'
-              KeyVaultName: '$(keyVaultName)2'
-              SecretsFilter: 'storageConnectionString'
-              RunAsPreJob: false
-#              ReplaceExisting: true

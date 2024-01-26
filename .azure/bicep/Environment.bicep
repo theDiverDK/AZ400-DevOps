@@ -5,8 +5,6 @@ param appServicePlanName string
 param appName string
 param storageAccountName string
 param websiteName string
-param keyVaultName string
-
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
   name: toLower(appServicePlanName)
@@ -59,37 +57,3 @@ resource webApp 'Microsoft.Web/sites@2023-01-01' = {
   kind: 'web'
 }
 
-resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = {
-  location: location
-  name: toLower(keyVaultName)
-  properties: {
-    enabledForDeployment: false
-    enabledForDiskEncryption: false
-    enabledForTemplateDeployment: true
-    tenantId: subscription().tenantId
-    enableSoftDelete: true
-    softDeleteRetentionInDays: 7
-
-    accessPolicies: [
-      {
-        objectId: '6950dc88-2dd3-426a-8802-111a584c2ceb'
-        tenantId: subscription().tenantId
-        permissions: {
-          keys: [
-            'list', 'set'
-          ]
-          secrets: [
-            'list', 'set'
-          ]
-        }
-      }
-    ]
-    sku: {
-      name: 'standard'
-      family: 'A'
-    }
-    networkAcls: {
-      defaultAction: 'Allow'
-      bypass: 'AzureServices'
-    }
-  }}
