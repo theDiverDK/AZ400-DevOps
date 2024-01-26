@@ -12,9 +12,6 @@ trigger:
 variables:
   - group: 'Function-App-Prod'
   
-  - name: templateFile
-    value: '.azure/bicep/Function.bicep'
-
   - name: azureServiceConnection
     value: 'azureConnection'
 
@@ -29,40 +26,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-  - stage:
-    #Setup or update environment
-    displayName: Create or update environment
-    variables:
-      - group: 'Function-App-Prod'
-    jobs:
-      - job:
-        condition: false #prevents this stage to run
-        steps:
-          - checkout: none
-          - task: AzureCLI@2
-            displayName: Create or update the resource group
-            inputs:
-              azureSubscription: '$(azureServiceConnection)'
-              scriptType: pscore
-              scriptLocation: inlineScript
-              inlineScript: |
-                az group create --location $(location) --name $(resourceGroupName)
-
-          - task: AzureResourceManagerTemplateDeployment@3
-            displayName: Create or update environment
-            inputs:
-              addSpnToEnvironment: true
-              deploymentScope: 'Resource Group'
-              azureResourceManagerConnection: '$(azureServiceConnection)'
-              action: 'Create Or Update Resource Group'
-              resourceGroupName: '$(resourceGroupName)'
-              location: '$(location)'
-              templateLocation: 'Linked artifact'
-              csmFile: '$(templateFile)'
-              overrideParameters: '-appName $(appname) -location $(location) -storageAccountName $(storageaccountname)'
-              deploymentMode: 'Incremental'
-              deploymentOutputs: 'asp-json'
-
   - stage:
     #Checkout, restore, build and deploy the function app
     displayName: Build & Deploy
