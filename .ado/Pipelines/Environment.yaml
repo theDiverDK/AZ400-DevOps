@@ -24,7 +24,7 @@ variables:
     value: 'appplan$(suffix)'
   
   - name: appName
-    value: 'web$(suffix)'
+    value: 'functions$(suffix)'
 
   - name: websiteName
     value: 'web$(suffix)'
