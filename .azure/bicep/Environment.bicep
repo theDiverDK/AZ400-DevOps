@@ -48,7 +48,7 @@ resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
   dependsOn: [storageAccount]
 }
 
-resource appService 'Microsoft.Web/sites@2023-01-01' = {
+resource webApp 'Microsoft.Web/sites@2023-01-01' = {
   name: websiteName
   location: location
   properties: {
