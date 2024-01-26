@@ -7,7 +7,7 @@ trigger:
       - main
   paths:
     include:
-      - Functions
+      - WebApp
       
 variables:
   - group: 'Production Variables'
