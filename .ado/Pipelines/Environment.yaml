@@ -31,7 +31,7 @@ stages:
       - group: 'Function-App-Prod'
     jobs:
       - job:
-        condition: false #prevents this stage to run
+#        condition: false #prevents this stage to run
         steps:
           - checkout: none
           - task: AzureCLI@2
