@@ -10,7 +10,7 @@ trigger:
       - Functions
       
 variables:
-  - group: 'Function-App-Prod'
+  - group: 'Production Variables'
   
   - name: azureServiceConnection
     value: 'azureConnection'
@@ -36,21 +36,21 @@ stages:
           displayName: Restore
           inputs:
             command: 'restore'
-            projects: 'Functions/**/*.csproj'
+            projects: 'WebApp/**/*.csproj'
             feedsToUse: 'select'
 
         - task: DotNetCoreCLI@2
           displayName: Build Functions
           inputs:
             command: 'build'
-            projects: 'Functions/**/*.csproj'
+            projects: 'WebApp/**/*.csproj'
 
         - task: DotNetCoreCLI@2
           displayName: Publish Functions locally
           inputs:
             command: publish
             arguments: '--configuration Release --output publish_output'
-            projects: 'Functions/**/*.csproj'
+            projects: 'WebApp/**/*.csproj'
             publishWebProjects: false
             modifyOutputPath: false
             zipAfterPublish: false
@@ -63,10 +63,10 @@ stages:
             archiveType: 'zip'
             archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
 
-        - task: AzureFunctionApp@2
-          displayName: Publish Functions to Azure
+        - task: AzureWebApp@1
+          displayName: Publish Webapp to Azure
           inputs:
-            connectedServiceNameARM: azureConnection
-            appType: functionApp
+            azureSubscription:  azureConnection
+            appType: webApp
             appName: $(appName)
             package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'

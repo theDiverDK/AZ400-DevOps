@@ -1,0 +1,72 @@
+#This pipeline will create resource group and needed resources within
+#Then checkout, restore, build and deploy a Function App
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - Functions
+      
+variables:
+  - group: 'Production Variables'
+  
+  - name: azureServiceConnection
+    value: 'azureConnection'
+
+  - name: appname
+    value: 'functions$(suffix)'
+
+  - name: storageAccountName
+    value: 'storage$(suffix)'
+
+pool:
+  name: 'Minecraft server'
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage:
+    #Checkout, restore, build and deploy the function app
+    displayName: Build & Deploy
+    jobs:
+      - job:
+        steps:
+        - task: DotNetCoreCLI@2
+          displayName: Restore
+          inputs:
+            command: 'restore'
+            projects: 'Functions/**/*.csproj'
+            feedsToUse: 'select'
+
+        - task: DotNetCoreCLI@2
+          displayName: Build Functions
+          inputs:
+            command: 'build'
+            projects: 'Functions/**/*.csproj'
+
+        - task: DotNetCoreCLI@2
+          displayName: Publish Functions locally
+          inputs:
+            command: publish
+            arguments: '--configuration Release --output publish_output'
+            projects: 'Functions/**/*.csproj'
+            publishWebProjects: false
+            modifyOutputPath: false
+            zipAfterPublish: false
+
+        - task: ArchiveFiles@2
+          displayName: "Archive Functions"
+          inputs:
+            rootFolderOrFile: "publish_output"
+            includeRootFolder: false
+            archiveType: 'zip'
+            archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+
+        - task: AzureFunctionApp@2
+          displayName: Publish Functions to Azure
+          inputs:
+            connectedServiceNameARM: azureConnection
+            appType: functionApp
+            appName: $(appName)
+            package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
