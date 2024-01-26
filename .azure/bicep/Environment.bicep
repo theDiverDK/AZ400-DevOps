@@ -6,8 +6,13 @@ param appName string
 param storageAccountName string
 param websiteName string
 
+param cosmosAccountName string
+param cosmosDatabaseName string
+param cosmosContainerName string
+
+
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
-  name: appServicePlanName
+  name: toLower(appServicePlanName)
   location: location
   sku: {
     tier: 'Basic'
@@ -17,7 +22,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
 }
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
-  name: storageAccountName
+  name: toLower(storageAccountName)
   location: location
   sku: {
     name: 'Standard_LRS'
@@ -26,7 +31,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
 }
 
 resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
-  name: appName
+  name: toLower(appName)
   location: location
   kind: 'functionapp'
   properties: {
@@ -49,11 +54,70 @@ resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
 }
 
 resource webApp 'Microsoft.Web/sites@2023-01-01' = {
-  name: websiteName
+  name: toLower(websiteName)
   location: location
   properties: {
     serverFarmId: appServicePlan.id
   }
   kind: 'web'
+}
+
+resource account 'Microsoft.DocumentDB/databaseAccounts@2023-11-15' = {
+  name: toLower(cosmosAccountName)
+  location: location
+  properties: {
+    enableFreeTier: true
+    databaseAccountOfferType: 'Standard'
+    consistencyPolicy: {
+      defaultConsistencyLevel: 'Session'
+    }
+    locations: [
+      {
+        locationName: location
+      }
+    ]
+  }
+}
+
+resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2023-11-15' = {
+  parent: account
+  name: cosmosDatabaseName
+  properties: {
+    resource: {
+      id: cosmosDatabaseName
+    }
+    options: {
+      throughput: 1000
+    }
+  }
+}
+
+resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2023-11-15' = {
+  parent: database
+  name: cosmosContainerName
+  properties: {
+    resource: {
+      id: cosmosContainerName
+      partitionKey: {
+        paths: [
+          '/myPartitionKey'
+        ]
+        kind: 'Hash'
+      }
+      indexingPolicy: {
+        indexingMode: 'consistent'
+        includedPaths: [
+          {
+            path: '/*'
+          }
+        ]
+        excludedPaths: [
+          {
+            path: '/_etag/?'
+          }
+        ]
+      }
+    }
+  }
 }
 
