@@ -25,6 +25,12 @@ pool:
   name: 'Minecraft server'
   vmImage: 'ubuntu-latest'
 
+
+resources:
+  pipelines:
+  - pipeline: environment  # Name of the 'environment' pipeline resource
+    source: '.azure/bicep/Environment.bicep'
+
 stages:
   - stage:
     #Checkout, restore, build and deploy the function app
