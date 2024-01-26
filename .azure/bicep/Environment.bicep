@@ -5,6 +5,7 @@ param appServicePlanName string
 param appName string
 param storageAccountName string
 param websiteName string
+param keyVaultName string
 
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
@@ -58,3 +59,14 @@ resource webApp 'Microsoft.Web/sites@2023-01-01' = {
   kind: 'web'
 }
 
+resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = {
+  location: location
+  name: toLower(keyVaultName)
+  properties: {
+    sku: {
+      family: 'A'
+      name: 'standard'
+    }
+    tenantId: subscription().tenantId
+  }
+}

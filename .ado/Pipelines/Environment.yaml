@@ -31,6 +31,9 @@ variables:
 
   - name: storageAccountName
     value: 'storage$(suffix)'
+  
+  - name: keyVaultName
+    value: 'keyVault$(suffix)'
 
 pool:
   name: 'Minecraft server'
@@ -67,7 +70,7 @@ stages:
               location: '$(location)'
               templateLocation: 'Linked artifact'
               csmFile: '$(templateFile)'
-              overrideParameters: ' -appServicePlanName $(appServicePlanName) -appName $(appName) -location $(location) -storageAccountName $(storageAccountName) -websiteName $(websiteName)'
+              overrideParameters: ' -appServicePlanName $(appServicePlanName) -appName $(appName) -location $(location) -storageAccountName $(storageAccountName) -websiteName $(websiteName) -keyVaultName $(keyVaultName)'
               deploymentMode: 'Incremental'
               deploymentOutputs: 'asp-json'
           
