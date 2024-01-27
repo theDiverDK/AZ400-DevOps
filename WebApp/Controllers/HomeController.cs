@@ -46,13 +46,11 @@ public class HomeController : Controller
 
         try
         {
-          
-
             // Upload text to a new block blob.
             byte[] byteArray = Encoding.ASCII.GetBytes("Hello world");
 
             using var stream = new MemoryStream(byteArray);
-            containerClient.UploadBlob("file.txt", stream);
+            containerClient.UploadBlob($"file-{DateTime.Now}.txt", stream);
         }
         catch (Exception e)
         {
