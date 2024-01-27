@@ -50,7 +50,7 @@ public class HomeController : Controller
             byte[] byteArray = Encoding.ASCII.GetBytes("Hello world");
 
             using var stream = new MemoryStream(byteArray);
-            containerClient.UploadBlob($"file-{DateTime.Now}.txt", stream);
+            containerClient.UploadBlob($"file-{Guid.NewGuid().ToString()}.txt", stream);
         }
         catch (Exception e)
         {
