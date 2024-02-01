@@ -5,6 +5,8 @@ parameters:
     type: string
   - name: AppType
     type: string
+  - name: ServiceConnection
+    type: string
 
 
 stages: 
@@ -21,7 +23,7 @@ stages:
 
                 - task: AzureWebApp@1
                   inputs:
-                    azureSubscription: manualserviceconnection
+                    azureSubscription: ${{ parameters.ServiceConnection }}
                     appType: ${{ parameters.AppType }}
                     appName: ${{ parameters.AppName }}
                     package: '$(Pipeline.workspace)/*.zip'

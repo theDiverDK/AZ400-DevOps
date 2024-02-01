@@ -12,7 +12,7 @@ trigger:
 variables:
   - group: 'Production Variables'
   
-  - name: azureServiceConnection
+  - name: serviceConnection
     value: 'Reinke-Connection'
 
   - name: appname
@@ -65,3 +65,4 @@ stages:
       Environment: Test
       AppName: functions010572
       AppType: functionApp
+      xwConnection: $(serviceConnection)
