@@ -9,9 +9,9 @@ trigger:
 variables:
   - group: 'Production Variables'
   
-  - name: azureServiceConnection
+  - name: serviceConnection
     value: 'azureConnection'
-
+    
   - name: appname
     value: 'web$(suffix)'
 
