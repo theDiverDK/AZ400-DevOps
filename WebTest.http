@@ -4,3 +4,4 @@ GET @{{baseUrl}}/api/httptrigger?name=Søren
 
 ###
 
+GET https://functions010572.azurewebsites.net/api/httptrigger?name=Søren
