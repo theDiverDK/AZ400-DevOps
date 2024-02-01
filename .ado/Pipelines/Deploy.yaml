@@ -17,7 +17,7 @@ stages:
           runOnce:
             deploy:
               steps:
-                - script: echo ${{ parameters.WebAppName }}
+                - script: echo ${{ parameters.AppName }}
 
                 - task: AzureWebApp@1
                   inputs:
