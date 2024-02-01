@@ -29,4 +29,4 @@ stages:
                     azureSubscription: ${{ parameters.ServiceConnection }}
                     appType: ${{ parameters.AppType }}
                     appName: ${{ parameters.AppName }}
-                    package: '$(Pipeline.workspace)/*.zip'
+                    package: '$(Pipeline.workspace)/${{ parameters.AppName }}/*.zip'

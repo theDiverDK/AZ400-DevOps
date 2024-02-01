@@ -54,12 +54,12 @@ stages:
           displayName: 'Publish artifact'
           inputs: 
             targetPath: "$(Build.ArtifactStagingDirectory)"
-            artifact: appName
+            artifact: $(appName)
             publishLocation: "pipeline"
 
   - template: Deploy.yaml
     parameters:
       Environment: Test
-      AppName: functions010572
+      AppName: $(appName)
       AppType: functionApp
       ServiceConnection: $(serviceConnection)
