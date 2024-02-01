@@ -18,9 +18,6 @@ variables:
   - name: appname
     value: 'functions$(suffix)'
 
-  - name: storageAccountName
-    value: 'storage$(suffix)'
-
 pool:
   name: 'Minecraft server'
   vmImage: 'ubuntu-latest'
@@ -57,7 +54,7 @@ stages:
           displayName: 'Publish artifact'
           inputs: 
             targetPath: "$(Build.ArtifactStagingDirectory)"
-            artifact: WebApp
+            artifact: appName
             publishLocation: "pipeline"
 
   - template: Deploy.yaml
