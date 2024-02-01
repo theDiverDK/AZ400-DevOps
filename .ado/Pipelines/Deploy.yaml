@@ -1,7 +1,7 @@
 parameters:
   - name: Environment
     type: string
-  - name: WebAppName
+  - name: AppName
     type: string
   - name: AppType
     type: string
@@ -23,5 +23,5 @@ stages:
                   inputs:
                     azureSubscription: manualserviceconnection
                     appType: ${{ parameters.AppType }}
-                    appName: ${{ parameters.WebAppName }}
+                    appName: ${{ parameters.AppName }}
                     package: '$(Pipeline.workspace)/*.zip'
