@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using Azure.Identity;
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Specialized;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Models;
@@ -39,22 +40,30 @@ public class HomeController : Controller
 
     public void GetListFromStorageAccount()
     {
-        var url = "https://storage010572.blob.core.windows.net/webcontainer";
-
-        var cred = new DefaultAzureCredential();
-        var containerClient = new BlobContainerClient(new Uri(url), cred);
+        var containerClient = GetBlobContainerClient();
 
         try
         {
-            // Upload text to a new block blob.
-            byte[] byteArray = Encoding.ASCII.GetBytes("Hello world");
+            var blobList = containerClient.GetBlobs();
 
-            using var stream = new MemoryStream(byteArray);
-            containerClient.UploadBlob($"file-{Guid.NewGuid().ToString()}.txt", stream);
+            foreach (var blob in blobList)
+            {
+                var name = blob.Name;
+            }
         }
         catch (Exception e)
         {
             throw e;
         }
+    }
+
+    private static BlobContainerClient GetBlobContainerClient()
+    {
+        var url = "https://storage010572.blob.core.windows.net/webcontainer";
+
+        var cred = new DefaultAzureCredential();
+        var containerClient = new BlobContainerClient(new Uri(url), cred);
+        
+        return containerClient;
     }
 }
