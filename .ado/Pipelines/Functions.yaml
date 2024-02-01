@@ -39,11 +39,11 @@ stages:
             projects: 'Functions/**/*.csproj'
             feedsToUse: 'select'
 
-        - task: DotNetCoreCLI@2
-          displayName: Build 
-          inputs:
-            command: 'build'
-            projects: 'Functions/**/*.csproj'
+#        - task: DotNetCoreCLI@2
+#          displayName: Build 
+#          inputs:
+#            command: 'build'
+#            projects: 'Functions/**/*.csproj'
 
         - task: DotNetCoreCLI@2
           displayName: 'Build and Publish'
