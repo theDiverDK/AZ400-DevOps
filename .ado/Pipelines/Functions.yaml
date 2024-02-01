@@ -13,7 +13,7 @@ variables:
   - group: 'Production Variables'
   
   - name: azureServiceConnection
-    value: 'azureConnection'
+    value: 'Reinke-Connection'
 
   - name: appname
     value: 'functions$(suffix)'
