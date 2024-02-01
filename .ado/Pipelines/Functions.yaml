@@ -59,3 +59,9 @@ stages:
             targetPath: "$(Build.ArtifactStagingDirectory)"
             artifact: WebApp
             publishLocation: "pipeline"
+
+  - template: Deploy.yaml
+    parameters:
+      Environment: Test
+      AppName: functions010572
+      AppType: functionApp
