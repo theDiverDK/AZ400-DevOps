@@ -47,14 +47,14 @@ stages:
 #        condition: false #prevents this stage to run
         steps:
 #          - checkout: none
-          - task: AzureCLI@2
-            displayName: Create or update the resource group
-            inputs:
-              azureSubscription: '$(azureServiceConnection)'
-              scriptType: pscore
-              scriptLocation: inlineScript
-              inlineScript: |
-                az group create --location $(location) --name $(resourceGroupName)
+#          - task: AzureCLI@2
+#            displayName: Create or update the resource group
+#            inputs:
+#              azureSubscription: '$(azureServiceConnection)'
+#              scriptType: pscore
+#              scriptLocation: inlineScript
+#              inlineScript: |
+#                az group create --location $(location) --name $(resourceGroupName)
 
           - task: AzureResourceManagerTemplateDeployment@3
             displayName: Create or update environment
@@ -67,7 +67,12 @@ stages:
               location: '$(location)'
               templateLocation: 'Linked artifact'
               csmFile: '$(templateFile)'
-              overrideParameters: ' -appServicePlanName $(appServicePlanName) -appName $(appName) -location $(location) -storageAccountName $(storageAccountName) -websiteName $(websiteName)'
+              overrideParameters: 
+                -appServicePlanName $(appServicePlanName) 
+                -appName $(appName) 
+                -location $(location) 
+                -storageAccountName $(storageAccountName) 
+                -websiteName $(websiteName)'
               deploymentMode: 'Incremental'
               deploymentOutputs: 'asp-json'
          
