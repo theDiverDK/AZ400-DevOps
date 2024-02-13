@@ -55,14 +55,6 @@ resource webApp 'Microsoft.Web/sites@2023-01-01' = {
   
   properties: {
     serverFarmId: appServicePlan.id
-    siteConfig: {
-      appSettings: [
-        {
-          name: 'ASPNETCORE_ENVIRONMENT'
-          value: 'Production'
-        }
-      ]
-    } 
   }
 }
 

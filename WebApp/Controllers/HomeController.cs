@@ -22,7 +22,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        GetListFromStorageAccount();
+        var data = GetListFromStorageAccount();
+        ViewBag["data"] = data;
         return View();
     }
 
@@ -38,23 +39,24 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    public void GetListFromStorageAccount()
+    public string GetListFromStorageAccount()
     {
         var containerClient = GetBlobContainerClient();
-
+        var result = string.Empty;
+        
         try
         {
             var blobList = containerClient.GetBlobs();
-
             foreach (var blob in blobList)
             {
-                var name = blob.Name;
+                result+=blob.Name;
             }
         }
         catch (Exception e)
         {
             throw e;
         }
+        return result;
     }
 
     private static BlobContainerClient GetBlobContainerClient()
