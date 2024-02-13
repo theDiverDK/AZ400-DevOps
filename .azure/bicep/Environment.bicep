@@ -49,11 +49,20 @@ resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
 }
 
 resource webApp 'Microsoft.Web/sites@2023-01-01' = {
-  name: websiteName
+  name: toLower(websiteName)
   location: location
-  properties: {
-    serverFarmId: appServicePlan.id 
-  }
   kind: 'web'
+  
+  properties: {
+    serverFarmId: appServicePlan.id
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'ASPNETCORE_ENVIRONMENT'
+          value: 'Production'
+        }
+      ]
+    } 
+  }
 }
 
