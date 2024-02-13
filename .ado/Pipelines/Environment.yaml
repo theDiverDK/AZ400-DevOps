@@ -72,7 +72,7 @@ stages:
                 -appName $(appName) 
                 -location $(location) 
                 -storageAccountName $(storageAccountName) 
-                -websiteName $(websiteName)'
+                -websiteName $(websiteName)
               deploymentMode: 'Incremental'
               deploymentOutputs: 'asp-json'
          
