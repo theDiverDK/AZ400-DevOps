@@ -23,7 +23,7 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         var data = GetListFromStorageAccount();
-        ViewBag["data"] = data;
+        ViewBag.data = data;
         return View();
     }
 
