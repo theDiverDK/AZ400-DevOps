@@ -48,12 +48,12 @@ resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
   dependsOn: [storageAccount]
 }
 
-resource webApp 'Microsoft.Web/sites@2023-01-01' = {
-  name: websiteName
-  location: location
-  properties: {
-    serverFarmId: appServicePlan.id 
-  }
-  kind: 'web'
-}
+//resource webApp 'Microsoft.Web/sites@2023-01-01' = {
+//  name: websiteName
+//  location: location
+//  properties: {
+//    serverFarmId: appServicePlan.id 
+//  }
+//  kind: 'web'
+//}
 
