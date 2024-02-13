@@ -47,9 +47,9 @@ stages:
             artifact: $(appName)
             publishLocation: "pipeline"
   
-  - template: Deploy.yaml
-    parameters:
-      Environment: Test
-      AppName: $(appName)
-      AppType: webApp
-      ServiceConnection: $(serviceConnection)
+#  - template: Deploy.yaml
+#    parameters:
+#      Environment: Test
+#      AppName: $(appName)
+#      AppType: webApp
+#      ServiceConnection: $(serviceConnection)
