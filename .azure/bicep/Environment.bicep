@@ -51,9 +51,10 @@ resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
 resource webApp 'Microsoft.Web/sites@2023-01-01' = {
   name: toLower(websiteName)
   location: location
+  kind: 'web'
+  
   properties: {
     serverFarmId: appServicePlan.id
   }
-  kind: 'web'
 }
 

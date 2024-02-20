@@ -1,0 +1,32 @@
+parameters:
+  - name: Environment
+    type: string
+
+  - name: AppName
+    type: string
+  
+  - name: AppType
+    type: string
+  
+  - name: ServiceConnection
+    type: string
+
+
+stages: 
+  - stage: ${{ parameters.Environment }}Deployment
+    jobs:
+      - deployment: ${{ parameters.Environment }}
+        displayName: Deploy to ${{ parameters.Environment }}
+        environment: ${{ parameters.Environment }}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: echo ${{ parameters.AppName }}
+
+                - task: AzureWebApp@1
+                  inputs:
+                    azureSubscription: ${{ parameters.ServiceConnection }}
+                    appType: ${{ parameters.AppType }}
+                    appName: ${{ parameters.AppName }}
+                    package: '$(Pipeline.workspace)/${{ parameters.AppName }}/*.zip'

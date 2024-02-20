@@ -9,14 +9,11 @@ trigger:
 variables:
   - group: 'Production Variables'
   
-  - name: azureServiceConnection
+  - name: serviceConnection
     value: 'azureConnection'
-
+    
   - name: appname
     value: 'web$(suffix)'
-
-  - name: storageAccountName
-    value: 'storage$(suffix)'
 
 pool:
   name: 'Minecraft server'
@@ -36,33 +33,23 @@ stages:
             feedsToUse: 'select'
 
         - task: DotNetCoreCLI@2
-          displayName: Build 
+          displayName: 'Build and Publish'
           inputs:
-            command: 'build'
-            projects: 'WebApp/**/*.csproj'
-
-        - task: DotNetCoreCLI@2
-          displayName: Publish locally
-          inputs:
-            command: publish
-            arguments: '--configuration Release --output publish_output'
+            command: 'publish'
             projects: 'WebApp/**/*.csproj'
             publishWebProjects: false
-            modifyOutputPath: false
-            zipAfterPublish: false
-
-        - task: ArchiveFiles@2
-          displayName: "Archive"
-          inputs:
-            rootFolderOrFile: "publish_output"
-            includeRootFolder: false
-            archiveType: 'zip'
-            archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-
-        - task: AzureWebApp@1
-          displayName: Publish to Azure
-          inputs:
-            azureSubscription: azureConnection
-            appType: webApp
-            appName: $(appName)
-            package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+            arguments: "-o $(Build.ArtifactStagingDirectory) --configuration Release"
+  
+        - task: PublishPipelineArtifact@1 
+          displayName: 'Publish artifact'
+          inputs: 
+            targetPath: "$(Build.ArtifactStagingDirectory)"
+            artifact: $(appName)
+            publishLocation: "pipeline"
+  
+  - template: Deploy.yaml
+    parameters:
+      Environment: Test
+      AppName: $(appName)
+      AppType: webApp
+      ServiceConnection: $(serviceConnection)

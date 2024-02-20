@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
+
 namespace HttpTriggerFunction
 {
     public static class HttpTrigger
@@ -27,7 +28,7 @@ namespace HttpTriggerFunction
 
             string responseMessage = string.IsNullOrEmpty(name)
                 ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-                : $"Hello, {name}. This HTTP triggered function executed successfully.";
+                : $"Hello, {name}. Det virker :-)";
 
             return new OkObjectResult(responseMessage);
         }
