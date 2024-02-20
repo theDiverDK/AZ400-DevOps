@@ -20,7 +20,11 @@ namespace WebApp.Controllers
 
         public IActionResult Privacy()
         {
-            return View();
+            var x = 10;
+            var y = 0;
+            var z = x / y;
+
+            return View(z);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
