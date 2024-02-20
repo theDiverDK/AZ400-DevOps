@@ -51,10 +51,8 @@ public class HomeController : Controller
         try
         {
             var blobList = containerClient.GetBlobs();
-            foreach (var blob in blobList)
-            {
-                result+=blob.Name;
-            }
+
+            result = string.Join(", ", blobList.Select(blob => blob.Name));
         }
         catch (Exception e)
         {
