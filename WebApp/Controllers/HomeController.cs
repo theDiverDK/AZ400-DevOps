@@ -52,7 +52,7 @@ public class HomeController : Controller
         {
             var blobList = containerClient.GetBlobs();
 
-            result = string.Join("\n", blobList.Select(blob => blob.Name));
+            result = string.Join("\n\r", blobList.Select(blob => blob.Name));
         }
         catch (Exception e)
         {
